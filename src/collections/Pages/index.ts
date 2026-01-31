@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { publicOrTenantAccess } from '../../access/tenantAccess'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
@@ -26,7 +27,7 @@ export const Pages: CollectionConfig<'pages'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: publicOrTenantAccess,
     update: authenticated,
   },
   // This config controls what's populated by default when a page is referenced
@@ -59,6 +60,27 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'tenant',
+      type: 'relationship',
+      relationTo: 'tenants',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Tenant pemilik halaman ini',
+      },
+      // Auto-populate tenant from current user
+      hooks: {
+        beforeValidate: [
+          ({ req, value }) => {
+            // If value already set, use it (for super admin)
+            if (value) return value
+            // Otherwise use user's tenant
+            return req.user?.tenant || value
+          },
+        ],
+      },
     },
     {
       type: 'tabs',

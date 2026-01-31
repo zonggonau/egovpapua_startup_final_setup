@@ -11,6 +11,7 @@ import {
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { publicOrTenantAccess } from '../../access/tenantAccess'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
@@ -32,7 +33,7 @@ export const Posts: CollectionConfig<'posts'> = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: publicOrTenantAccess, // Public can read published, tenant users see their own
     update: authenticated,
   },
   // This config controls what's populated by default when a post is referenced
@@ -70,6 +71,27 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'tenant',
+      type: 'relationship',
+      relationTo: 'tenants',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Tenant pemilik post ini',
+      },
+      // Auto-populate tenant from current user
+      hooks: {
+        beforeValidate: [
+          ({ req, value }) => {
+            // If value already set, use it (for super admin)
+            if (value) return value
+            // Otherwise use user's tenant
+            return req.user?.tenant || value
+          },
+        ],
+      },
     },
     {
       type: 'tabs',

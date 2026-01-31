@@ -67,11 +67,35 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    tenants: Tenant;
+    users: User;
+    'subscription-plans': SubscriptionPlan;
+    subscriptions: Subscription;
+    invoices: Invoice;
+    payments: Payment;
+    'profil-instansi': ProfilInstansi;
+    berita: Berita;
+    dokumen: Dokuman;
+    'layanan-publik': LayananPublik;
+    agenda: Agenda;
+    galeri: Galeri;
+    transparansi: Transparansi;
+    statistik: Statistik;
+    'anggota-dpr': AnggotaDpr;
+    'produk-hukum': ProdukHukum;
+    'jadwal-sidang': JadwalSidang;
+    'program-kerja': ProgramKerja;
+    'opd-directory': OpdDirectory;
+    'kabupaten-directory': KabupatenDirectory;
+    'perangkat-desa': PerangkatDesa;
+    apbdes: Apbde;
+    templates: Template;
+    'theme-settings': ThemeSetting;
+    analytics: Analytics;
     pages: Page;
     posts: Post;
     media: Media;
     categories: Category;
-    users: User;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -89,11 +113,35 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    tenants: TenantsSelect<false> | TenantsSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    'subscription-plans': SubscriptionPlansSelect<false> | SubscriptionPlansSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
+    invoices: InvoicesSelect<false> | InvoicesSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
+    'profil-instansi': ProfilInstansiSelect<false> | ProfilInstansiSelect<true>;
+    berita: BeritaSelect<false> | BeritaSelect<true>;
+    dokumen: DokumenSelect<false> | DokumenSelect<true>;
+    'layanan-publik': LayananPublikSelect<false> | LayananPublikSelect<true>;
+    agenda: AgendaSelect<false> | AgendaSelect<true>;
+    galeri: GaleriSelect<false> | GaleriSelect<true>;
+    transparansi: TransparansiSelect<false> | TransparansiSelect<true>;
+    statistik: StatistikSelect<false> | StatistikSelect<true>;
+    'anggota-dpr': AnggotaDprSelect<false> | AnggotaDprSelect<true>;
+    'produk-hukum': ProdukHukumSelect<false> | ProdukHukumSelect<true>;
+    'jadwal-sidang': JadwalSidangSelect<false> | JadwalSidangSelect<true>;
+    'program-kerja': ProgramKerjaSelect<false> | ProgramKerjaSelect<true>;
+    'opd-directory': OpdDirectorySelect<false> | OpdDirectorySelect<true>;
+    'kabupaten-directory': KabupatenDirectorySelect<false> | KabupatenDirectorySelect<true>;
+    'perangkat-desa': PerangkatDesaSelect<false> | PerangkatDesaSelect<true>;
+    apbdes: ApbdesSelect<false> | ApbdesSelect<true>;
+    templates: TemplatesSelect<false> | TemplatesSelect<true>;
+    'theme-settings': ThemeSettingsSelect<false> | ThemeSettingsSelect<true>;
+    analytics: AnalyticsSelect<false> | AnalyticsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -106,16 +154,20 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
     header: Header;
     footer: Footer;
+    'super-admin-dashboard': SuperAdminDashboard;
+    'tenant-dashboard': TenantDashboard;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'super-admin-dashboard': SuperAdminDashboardSelect<false> | SuperAdminDashboardSelect<true>;
+    'tenant-dashboard': TenantDashboardSelect<false> | TenantDashboardSelect<true>;
   };
   locale: null;
   user: User & {
@@ -152,129 +204,46 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "tenants".
  */
-export interface Page {
-  id: string;
-  title: string;
-  hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
-    richText?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    links?:
-      | {
-          link: {
-            type?: ('reference' | 'custom') | null;
-            newTab?: boolean | null;
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'posts';
-                  value: string | Post;
-                } | null);
-            url?: string | null;
-            label: string;
-            /**
-             * Choose how the link should be rendered.
-             */
-            appearance?: ('default' | 'outline') | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
-    media?: (string | null) | Media;
-  };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
+export interface Tenant {
+  id: number;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * Nama lengkap instansi pemerintah
    */
-  generateSlug?: boolean | null;
+  name: string;
+  /**
+   * URL slug untuk tenant (contoh: diskominfo-jayapura)
+   */
   slug: string;
+  /**
+   * Jenis instansi pemerintahan
+   */
+  type: 'provinsi' | 'kabupaten' | 'opd' | 'dpr' | 'distrik' | 'desa';
+  logo?: (number | null) | Media;
+  contactInfo?: {
+    address?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    website?: string | null;
+  };
+  /**
+   * Status langganan tenant
+   */
+  subscriptionStatus: 'trial' | 'active' | 'suspended' | 'cancelled';
+  /**
+   * Langganan yang sedang aktif
+   */
+  subscription?: (number | null) | Subscription;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: string;
-  title: string;
-  heroImage?: (string | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (string | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (string | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt?: string | null;
   caption?: {
     root: {
@@ -291,7 +260,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -367,18 +336,18 @@ export interface Media {
  * via the `definition` "payload-folders".
  */
 export interface FolderInterface {
-  id: string;
+  id: number;
   name: string;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   documentsAndFolders?: {
     docs?: (
       | {
           relationTo?: 'payload-folders';
-          value: string | FolderInterface;
+          value: number | FolderInterface;
         }
       | {
           relationTo?: 'media';
-          value: string | Media;
+          value: number | Media;
         }
     )[];
     hasNextPage?: boolean;
@@ -390,25 +359,87 @@ export interface FolderInterface {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "subscriptions".
  */
-export interface Category {
-  id: string;
-  title: string;
+export interface Subscription {
+  id: number;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * Tenant yang berlangganan
    */
-  generateSlug?: boolean | null;
+  tenant: number | Tenant;
+  plan: number | SubscriptionPlan;
+  /**
+   * Status langganan saat ini
+   */
+  status: 'pending' | 'active' | 'cancelled' | 'expired' | 'suspended';
+  startDate: string;
+  endDate: string;
+  /**
+   * Perpanjang otomatis saat berakhir
+   */
+  autoRenew?: boolean | null;
+  cancelledAt?: string | null;
+  cancellationReason?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans".
+ */
+export interface SubscriptionPlan {
+  id: number;
+  /**
+   * Contoh: Desa Basic, OPD Premium
+   */
+  name: string;
+  /**
+   * Identifier unik untuk paket
+   */
   slug: string;
-  parent?: (string | null) | Category;
-  breadcrumbs?:
+  description?: string | null;
+  /**
+   * Harga dalam Rupiah
+   */
+  price: number;
+  interval: 'monthly' | 'yearly';
+  /**
+   * Paket ini ditujukan untuk jenis tenant mana
+   */
+  targetTenantType?: ('provinsi' | 'kabupaten' | 'opd' | 'dpr' | 'distrik' | 'desa') | null;
+  features?:
     | {
-        doc?: (string | null) | Category;
-        url?: string | null;
-        label?: string | null;
+        feature: string;
         id?: string | null;
       }[]
     | null;
+  limits?: {
+    /**
+     * 0 = unlimited
+     */
+    maxPages?: number | null;
+    /**
+     * 0 = unlimited
+     */
+    maxPosts?: number | null;
+    /**
+     * 0 = unlimited
+     */
+    maxUsers?: number | null;
+    /**
+     * Kapasitas storage dalam GB
+     */
+    storageGB?: number | null;
+  };
+  /**
+   * Apakah paket ini tersedia untuk dipilih
+   */
+  isActive?: boolean | null;
+  /**
+   * Tampilkan sebagai paket unggulan
+   */
+  isFeatured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -417,8 +448,16 @@ export interface Category {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
-  name?: string | null;
+  id: number;
+  name: string;
+  /**
+   * Role menentukan hak akses user
+   */
+  role: 'super_admin' | 'tenant_admin' | 'editor' | 'viewer';
+  /**
+   * Tenant yang dimiliki user (kosongkan untuk super admin)
+   */
+  tenant?: (number | null) | Tenant;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -436,6 +475,1305 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices".
+ */
+export interface Invoice {
+  id: number;
+  /**
+   * Auto-generated invoice number
+   */
+  invoiceNumber: string;
+  tenant: number | Tenant;
+  /**
+   * Langganan terkait (opsional)
+   */
+  subscription?: (number | null) | Subscription;
+  items: {
+    description: string;
+    quantity: number;
+    unitPrice: number;
+    amount: number;
+    id?: string | null;
+  }[];
+  subtotal: number;
+  /**
+   * PPN atau pajak lainnya
+   */
+  tax?: number | null;
+  /**
+   * Subtotal + Pajak
+   */
+  amount: number;
+  status: 'draft' | 'pending' | 'paid' | 'overdue' | 'cancelled';
+  dueDate: string;
+  paidAt?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: number;
+  invoice: number | Invoice;
+  amount: number;
+  method: 'midtrans_cc' | 'midtrans_bank_transfer' | 'midtrans_ewallet' | 'midtrans_qris' | 'manual_transfer';
+  status: 'pending' | 'processing' | 'success' | 'failed' | 'cancelled' | 'refunded';
+  midtransData?: {
+    /**
+     * Midtrans order_id
+     */
+    orderId?: string | null;
+    /**
+     * Midtrans transaction_id
+     */
+    transactionId?: string | null;
+    /**
+     * Status dari Midtrans
+     */
+    transactionStatus?: string | null;
+    /**
+     * Jenis pembayaran dari Midtrans
+     */
+    paymentType?: string | null;
+    /**
+     * Token untuk Snap payment
+     */
+    snapToken?: string | null;
+    /**
+     * URL untuk pembayaran Snap
+     */
+    snapUrl?: string | null;
+    /**
+     * Virtual Account number (untuk bank transfer)
+     */
+    vaNumber?: string | null;
+    /**
+     * Bank yang digunakan
+     */
+    bank?: string | null;
+  };
+  manualTransferData?: {
+    accountName?: string | null;
+    accountNumber?: string | null;
+    bankName?: string | null;
+    transferDate?: string | null;
+    proofOfPayment?: (number | null) | Media;
+  };
+  /**
+   * Data tambahan dari payment gateway (JSON)
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  processedAt?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profil-instansi".
+ */
+export interface ProfilInstansi {
+  id: number;
+  tenant: number | Tenant;
+  namaInstansi: string;
+  /**
+   * Visi instansi
+   */
+  visi?: string | null;
+  misi?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Sejarah singkat instansi
+   */
+  sejarah?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  tugasPokok?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  strukturOrganisasi?: {
+    bagan?: (number | null) | Media;
+    deskripsi?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  pejabat?:
+    | {
+        nama: string;
+        jabatan: string;
+        foto?: (number | null) | Media;
+        nip?: string | null;
+        pendidikan?: string | null;
+        riwayat?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  kontak?: {
+    alamat?: string | null;
+    telepon?: string | null;
+    fax?: string | null;
+    email?: string | null;
+    website?: string | null;
+    jamLayanan?: string | null;
+  };
+  socialMedia?:
+    | {
+        platform: 'facebook' | 'twitter' | 'instagram' | 'youtube' | 'tiktok';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "berita".
+ */
+export interface Berita {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  kategori: 'utama' | 'pengumuman' | 'kegiatan' | 'informasi' | 'press_release';
+  featuredImage: number | Media;
+  /**
+   * Ringkasan singkat berita (max 200 karakter)
+   */
+  ringkasan: string;
+  konten: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  galeri?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  penulis?: (number | null) | User;
+  publishedAt?: string | null;
+  /**
+   * Tampilkan di bagian atas beranda
+   */
+  isPinned?: boolean | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dokumen".
+ */
+export interface Dokuman {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  jenisDokumen: 'perda' | 'pergub_perbup' | 'sk' | 'surat_edaran' | 'instruksi' | 'laporan' | 'perencanaan' | 'lainnya';
+  /**
+   * Contoh: No. 5 Tahun 2024
+   */
+  nomorDokumen?: string | null;
+  tanggalTerbit: string;
+  /**
+   * Perihal/tentang dokumen
+   */
+  tentang: string;
+  deskripsi?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Upload file PDF dokumen
+   */
+  file: number | Media;
+  lampiran?:
+    | {
+        namaFile: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'berlaku' | 'dicabut' | 'direvisi';
+  kategori?:
+    | {
+        nama?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  versi?: {
+    nomorVersi?: string | null;
+    catatanRevisi?: string | null;
+    /**
+     * Jika ini adalah revisi dari dokumen lain
+     */
+    dokumenSebelumnya?: (number | null) | Dokuman;
+  };
+  jumlahUnduhan?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "layanan-publik".
+ */
+export interface LayananPublik {
+  id: number;
+  tenant: number | Tenant;
+  namaLayanan: string;
+  kategori: 'perizinan' | 'adminduk' | 'kesehatan' | 'pendidikan' | 'sosial' | 'infrastruktur' | 'lainnya';
+  deskripsi: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  persyaratan: {
+    item: string;
+    id?: string | null;
+  }[];
+  prosedur: {
+    langkah: number;
+    deskripsi: string;
+    id?: string | null;
+  }[];
+  waktuPenyelesaian: {
+    durasi: number;
+    satuan: 'menit' | 'jam' | 'hari' | 'minggu';
+  };
+  biaya?: {
+    nominal?: number | null;
+    /**
+     * Contoh: Gratis, Sesuai Retribusi, dll
+     */
+    keterangan?: string | null;
+  };
+  /**
+   * Apakah layanan ini tersedia secara online?
+   */
+  isOnline?: boolean | null;
+  /**
+   * URL untuk mengakses layanan online
+   */
+  linkLayanan?: string | null;
+  kontak?: {
+    namaUnit?: string | null;
+    telepon?: string | null;
+    email?: string | null;
+    loket?: string | null;
+  };
+  formulir?:
+    | {
+        namaFormulir: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  faq?:
+    | {
+        pertanyaan: string;
+        jawaban: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agenda".
+ */
+export interface Agenda {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  deskripsi?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  tanggalMulai: string;
+  tanggalSelesai?: string | null;
+  lokasi?: string | null;
+  penyelenggara?: string | null;
+  kategori?: ('rapat' | 'seminar' | 'sosialisasi' | 'pelatihan' | 'upacara' | 'lainnya') | null;
+  status: 'dijadwalkan' | 'berlangsung' | 'selesai' | 'dibatalkan';
+  /**
+   * Tampilkan di kalender publik
+   */
+  isPublic?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galeri".
+ */
+export interface Galeri {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  deskripsi?: string | null;
+  jenis: 'foto' | 'video' | 'album';
+  media?: (number | null) | Media;
+  items?:
+    | {
+        media: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  tanggal?: string | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "transparansi".
+ */
+export interface Transparansi {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  jenis: 'lkip' | 'lakip' | 'keuangan' | 'apbd' | 'realisasi' | 'aset' | 'gratifikasi' | 'lhkpn' | 'lainnya';
+  tahun: number;
+  periode?: ('tw1' | 'tw2' | 'tw3' | 'tw4' | 'sem1' | 'sem2' | 'tahunan') | null;
+  deskripsi?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Upload file PDF laporan
+   */
+  file: number | Media;
+  lampiran?:
+    | {
+        namaFile: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  ringkasan?: {
+    totalAnggaran?: number | null;
+    realisasi?: number | null;
+    persentase?: number | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statistik".
+ */
+export interface Statistik {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  kategori:
+    | 'kependudukan'
+    | 'ekonomi'
+    | 'pendidikan'
+    | 'kesehatan'
+    | 'infrastruktur'
+    | 'sosial'
+    | 'pertanian'
+    | 'lainnya';
+  tahun: number;
+  deskripsi?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  data: {
+    label: string;
+    nilai: number;
+    /**
+     * Contoh: orang, jiwa, %, Rp, dll
+     */
+    satuan?: string | null;
+    id?: string | null;
+  }[];
+  visualisasi?: ('table' | 'bar' | 'line' | 'pie' | 'area') | null;
+  /**
+   * Contoh: BPS, Dinas Kependudukan, dll
+   */
+  sumber?: string | null;
+  /**
+   * Upload file Excel/CSV data lengkap (opsional)
+   */
+  file?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "anggota-dpr".
+ */
+export interface AnggotaDpr {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  nama: string;
+  foto?: (number | null) | Media;
+  /**
+   * Contoh: Fraksi PDI Perjuangan, Fraksi Golkar, dll
+   */
+  fraksi: string;
+  dapil?: string | null;
+  komisi?:
+    | {
+        nama: string;
+        jabatan?: ('ketua' | 'wakil_ketua' | 'anggota') | null;
+        id?: string | null;
+      }[]
+    | null;
+  jabatanDPR?: ('ketua_dpr' | 'wakil_ketua_dpr' | 'anggota') | null;
+  /**
+   * Contoh: 2019-2024
+   */
+  periode: string;
+  biodata?: {
+    tempatLahir?: string | null;
+    tanggalLahir?: string | null;
+    pendidikan?: string | null;
+    pekerjaan?: string | null;
+  };
+  riwayatOrganisasi?:
+    | {
+        organisasi: string;
+        jabatan?: string | null;
+        tahun?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  kontak?: {
+    email?: string | null;
+    telepon?: string | null;
+    alamatKantor?: string | null;
+  };
+  status?: ('aktif' | 'tidak_aktif' | 'paw') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "produk-hukum".
+ */
+export interface ProdukHukum {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  jenis: 'perda' | 'perdasi' | 'keputusan' | 'peraturan' | 'raperda';
+  /**
+   * Contoh: 5
+   */
+  nomor: string;
+  tahun: number;
+  tentang: string;
+  tanggalPenetapan?: string | null;
+  tanggalPengundangan?: string | null;
+  naskahAkademik?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  pemrakarsa?: ('dprd' | 'kepala_daerah' | 'bersama') | null;
+  prosesLegislasi?:
+    | {
+        tahap: string;
+        tanggal?: string | null;
+        keterangan?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Upload file PDF
+   */
+  file: number | Media;
+  lampiran?:
+    | {
+        namaFile: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'rancangan' | 'pembahasan' | 'berlaku' | 'dicabut' | 'direvisi';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jadwal-sidang".
+ */
+export interface JadwalSidang {
+  id: number;
+  tenant: number | Tenant;
+  judul: string;
+  jenisSidang: 'paripurna' | 'komisi' | 'banggar' | 'baleg' | 'gabungan' | 'rdp' | 'raker';
+  tanggal: string;
+  waktuSelesai?: string | null;
+  tempat: string;
+  agenda: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  komisi?: string | null;
+  peserta?:
+    | {
+        nama: string;
+        jabatan?: string | null;
+        instansi?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  dokumen?:
+    | {
+        namaDokumen: string;
+        jenis?: ('undangan' | 'agenda' | 'risalah' | 'keputusan' | 'lainnya') | null;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'dijadwalkan' | 'berlangsung' | 'selesai' | 'ditunda' | 'dibatalkan';
+  hasilSidang?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  isPublic?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "program-kerja".
+ */
+export interface ProgramKerja {
+  id: number;
+  tenant: number | Tenant;
+  namaProgram: string;
+  tahun: number;
+  deskripsi?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  tujuan?: string | null;
+  sasaran?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  indikatorKinerja?:
+    | {
+        indikator: string;
+        target: string;
+        realisasi?: string | null;
+        satuan?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  anggaran?: {
+    pagu?: number | null;
+    realisasi?: number | null;
+    persentase?: number | null;
+  };
+  kegiatan?:
+    | {
+        namaKegiatan: string;
+        waktu?: string | null;
+        penanggungJawab?: string | null;
+        status?: ('belum' | 'berjalan' | 'selesai' | 'tertunda') | null;
+        id?: string | null;
+      }[]
+    | null;
+  status: 'perencanaan' | 'berjalan' | 'selesai' | 'evaluasi';
+  dokumen?:
+    | {
+        namaDokumen: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opd-directory".
+ */
+export interface OpdDirectory {
+  id: number;
+  tenant: number | Tenant;
+  namaOPD: string;
+  jenisOPD: 'dinas' | 'badan' | 'kantor' | 'inspektorat' | 'sekretariat' | 'rs';
+  kepala?: {
+    nama?: string | null;
+    nip?: string | null;
+    foto?: (number | null) | Media;
+  };
+  alamat?: string | null;
+  kontak?: {
+    telepon?: string | null;
+    email?: string | null;
+    website?: string | null;
+  };
+  tugasPokok?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  logo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kabupaten-directory".
+ */
+export interface KabupatenDirectory {
+  id: number;
+  tenant: number | Tenant;
+  namaKabupaten: string;
+  jenisWilayah: 'kabupaten' | 'kota';
+  bupatiWalikota?: {
+    nama?: string | null;
+    foto?: (number | null) | Media;
+  };
+  wakilBupatiWalikota?: {
+    nama?: string | null;
+    foto?: (number | null) | Media;
+  };
+  ibukota?: string | null;
+  luasWilayah?: number | null;
+  jumlahPenduduk?: number | null;
+  jumlahDistrik?: number | null;
+  jumlahKampung?: number | null;
+  kontak?: {
+    alamat?: string | null;
+    telepon?: string | null;
+    email?: string | null;
+    website?: string | null;
+  };
+  logo?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "perangkat-desa".
+ */
+export interface PerangkatDesa {
+  id: number;
+  tenant: number | Tenant;
+  nama: string;
+  foto?: (number | null) | Media;
+  jabatan:
+    | 'kepala_desa'
+    | 'sekdes'
+    | 'kaur_pemerintahan'
+    | 'kaur_pembangunan'
+    | 'kaur_kesejahteraan'
+    | 'kaur_keuangan'
+    | 'kaur_umum'
+    | 'kadus';
+  nip?: string | null;
+  pendidikan?: string | null;
+  tempatLahir?: string | null;
+  tanggalLahir?: string | null;
+  alamat?: string | null;
+  telepon?: string | null;
+  masaJabatan?: {
+    mulai?: string | null;
+    selesai?: string | null;
+  };
+  status?: ('aktif' | 'tidak_aktif') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apbdes".
+ */
+export interface Apbde {
+  id: number;
+  tenant: number | Tenant;
+  tahun: number;
+  pendapatan?: {
+    items?:
+      | {
+          sumber: string;
+          anggaran: number;
+          realisasi?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  totalPendapatan?: number | null;
+  belanja?: {
+    items?:
+      | {
+          bidang: 'pemerintahan' | 'pembangunan' | 'kemasyarakatan' | 'pemberdayaan' | 'bencana';
+          kegiatan: string;
+          anggaran: number;
+          realisasi?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  totalBelanja?: number | null;
+  pembiayaan?: {
+    penerimaan?: number | null;
+    pengeluaran?: number | null;
+  };
+  /**
+   * Upload file PDF APBDes
+   */
+  dokumen?: (number | null) | Media;
+  status: 'rancangan' | 'ditetapkan' | 'perubahan';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "templates".
+ */
+export interface Template {
+  id: number;
+  /**
+   * Contoh: "Modern Desa", "Professional OPD", "Legislative DPR"
+   */
+  name: string;
+  /**
+   * URL-friendly identifier
+   */
+  slug: string;
+  description?: string | null;
+  /**
+   * Template ini ditujukan untuk jenis tenant mana
+   */
+  targetTenantType: 'provinsi' | 'kabupaten' | 'opd' | 'dpr' | 'distrik' | 'desa' | 'universal';
+  preview?: {
+    /**
+     * Screenshot template untuk preview
+     */
+    thumbnail?: (number | null) | Media;
+    /**
+     * Link ke demo template (opsional)
+     */
+    demoUrl?: string | null;
+  };
+  layout?: {
+    headerStyle?: ('default' | 'centered' | 'minimal' | 'full-width') | null;
+    footerStyle?: ('default' | 'minimal' | 'extended') | null;
+    sidebarPosition?: ('left' | 'right' | 'none') | null;
+  };
+  components?: {
+    hero?: boolean | null;
+    newsSlider?: boolean | null;
+    serviceCards?: boolean | null;
+    statistics?: boolean | null;
+    gallery?: boolean | null;
+    contactForm?: boolean | null;
+  };
+  /**
+   * Halaman yang akan dibuat otomatis saat template dipilih
+   */
+  pages?:
+    | {
+        title: string;
+        slug: string;
+        template?: ('home' | 'about' | 'services' | 'news' | 'contact' | 'custom') | null;
+        id?: string | null;
+      }[]
+    | null;
+  defaultColors?: {
+    /**
+     * Hex color code
+     */
+    primary?: string | null;
+    secondary?: string | null;
+    accent?: string | null;
+  };
+  fonts?: {
+    headingFont?: ('inter' | 'poppins' | 'roboto' | 'montserrat' | 'open-sans') | null;
+    bodyFont?: ('inter' | 'poppins' | 'roboto' | 'open-sans') | null;
+  };
+  features?:
+    | {
+        feature: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Apakah template tersedia untuk dipilih
+   */
+  isActive?: boolean | null;
+  /**
+   * Template default untuk tenant type ini
+   */
+  isDefault?: boolean | null;
+  /**
+   * Hanya tersedia untuk paket premium
+   */
+  isPremium?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-settings".
+ */
+export interface ThemeSetting {
+  id: number;
+  /**
+   * One theme setting per tenant
+   */
+  tenant: number | Tenant;
+  /**
+   * Template yang digunakan tenant ini
+   */
+  template: number | Template;
+  colors?: {
+    /**
+     * Hex color code (e.g., #0066CC)
+     */
+    primary?: string | null;
+    secondary?: string | null;
+    accent?: string | null;
+    background?: string | null;
+    text?: string | null;
+  };
+  logo?: {
+    main?: (number | null) | Media;
+    /**
+     * Logo untuk dark mode atau header transparan
+     */
+    alternate?: (number | null) | Media;
+    favicon?: (number | null) | Media;
+    width?: number | null;
+  };
+  header?: {
+    style?: ('default' | 'centered' | 'minimal' | 'full-width') | null;
+    isSticky?: boolean | null;
+    isTransparent?: boolean | null;
+    showSearch?: boolean | null;
+  };
+  footer?: {
+    style?: ('default' | 'minimal' | 'extended') | null;
+    copyrightText?: string | null;
+    showSocialMedia?: boolean | null;
+  };
+  homepage?: {
+    heroType?: ('slider' | 'video' | 'image' | 'minimal') | null;
+    heroImages?:
+      | {
+          image: number | Media;
+          title?: string | null;
+          subtitle?: string | null;
+          link?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Atur urutan section di homepage
+     */
+    sections?:
+      | {
+          type: 'news' | 'services' | 'statistics' | 'gallery' | 'agenda' | 'quick-links' | 'contact';
+          title?: string | null;
+          isVisible?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  typography?: {
+    headingFont?: ('inter' | 'poppins' | 'roboto' | 'montserrat' | 'open-sans') | null;
+    bodyFont?: ('inter' | 'poppins' | 'roboto' | 'open-sans') | null;
+    fontSize?: ('small' | 'medium' | 'large') | null;
+  };
+  /**
+   * Custom CSS untuk styling tambahan
+   */
+  customCSS?: string | null;
+  /**
+   * Custom JavaScript (gunakan dengan hati-hati)
+   */
+  customJS?: string | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    metaImage?: (number | null) | Media;
+    /**
+     * Format: G-XXXXXXXXXX
+     */
+    googleAnalyticsId?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics".
+ */
+export interface Analytics {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  event: 'page_view' | 'document_download' | 'service_access' | 'news_view' | 'search' | 'contact_submit';
+  metadata?: {
+    path?: string | null;
+    referrer?: string | null;
+    userAgent?: string | null;
+    ip?: string | null;
+    /**
+     * ID of document, news, service, etc
+     */
+    resourceId?: string | null;
+    searchQuery?: string | null;
+  };
+  sessionId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * Tenant pemilik halaman ini
+   */
+  tenant: number | Tenant;
+  hero: {
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    richText?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    links?:
+      | {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: number | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: number | Post;
+                } | null);
+            url?: string | null;
+            label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
+            appearance?: ('default' | 'outline') | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+    media?: (number | null) | Media;
+  };
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  /**
+   * Tenant pemilik post ini
+   */
+  tenant: number | Tenant;
+  heroImage?: (number | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  parent?: (number | null) | Category;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Category;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -465,11 +1803,11 @@ export interface CallToActionBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -515,11 +1853,11 @@ export interface ContentBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -540,7 +1878,7 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
-  media: string | Media;
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -567,12 +1905,12 @@ export interface ArchiveBlock {
   } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
-  categories?: (string | Category)[] | null;
+  categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       }[]
     | null;
   id?: string | null;
@@ -584,7 +1922,7 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: string | Form;
+  form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
     root: {
@@ -610,7 +1948,7 @@ export interface FormBlock {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: string;
+  id: number;
   title: string;
   fields?:
     | (
@@ -784,7 +2122,7 @@ export interface Form {
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: string;
+  id: number;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -794,11 +2132,11 @@ export interface Redirect {
     reference?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     url?: string | null;
   };
@@ -810,8 +2148,8 @@ export interface Redirect {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: string;
-  form: string | Form;
+  id: number;
+  form: number | Form;
   submissionData?:
     | {
         field: string;
@@ -829,18 +2167,18 @@ export interface FormSubmission {
  * via the `definition` "search".
  */
 export interface Search {
-  id: string;
+  id: number;
   title?: string | null;
   priority?: number | null;
   doc: {
     relationTo: 'posts';
-    value: string | Post;
+    value: number | Post;
   };
   slug?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   categories?:
     | {
@@ -858,7 +2196,7 @@ export interface Search {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -875,7 +2213,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: number;
   /**
    * Input data provided to the job
    */
@@ -967,52 +2305,148 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
-        relationTo: 'pages';
-        value: string | Page;
-      } | null)
-    | ({
-        relationTo: 'posts';
-        value: string | Post;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'categories';
-        value: string | Category;
+        relationTo: 'tenants';
+        value: number | Tenant;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'subscription-plans';
+        value: number | SubscriptionPlan;
+      } | null)
+    | ({
+        relationTo: 'subscriptions';
+        value: number | Subscription;
+      } | null)
+    | ({
+        relationTo: 'invoices';
+        value: number | Invoice;
+      } | null)
+    | ({
+        relationTo: 'payments';
+        value: number | Payment;
+      } | null)
+    | ({
+        relationTo: 'profil-instansi';
+        value: number | ProfilInstansi;
+      } | null)
+    | ({
+        relationTo: 'berita';
+        value: number | Berita;
+      } | null)
+    | ({
+        relationTo: 'dokumen';
+        value: number | Dokuman;
+      } | null)
+    | ({
+        relationTo: 'layanan-publik';
+        value: number | LayananPublik;
+      } | null)
+    | ({
+        relationTo: 'agenda';
+        value: number | Agenda;
+      } | null)
+    | ({
+        relationTo: 'galeri';
+        value: number | Galeri;
+      } | null)
+    | ({
+        relationTo: 'transparansi';
+        value: number | Transparansi;
+      } | null)
+    | ({
+        relationTo: 'statistik';
+        value: number | Statistik;
+      } | null)
+    | ({
+        relationTo: 'anggota-dpr';
+        value: number | AnggotaDpr;
+      } | null)
+    | ({
+        relationTo: 'produk-hukum';
+        value: number | ProdukHukum;
+      } | null)
+    | ({
+        relationTo: 'jadwal-sidang';
+        value: number | JadwalSidang;
+      } | null)
+    | ({
+        relationTo: 'program-kerja';
+        value: number | ProgramKerja;
+      } | null)
+    | ({
+        relationTo: 'opd-directory';
+        value: number | OpdDirectory;
+      } | null)
+    | ({
+        relationTo: 'kabupaten-directory';
+        value: number | KabupatenDirectory;
+      } | null)
+    | ({
+        relationTo: 'perangkat-desa';
+        value: number | PerangkatDesa;
+      } | null)
+    | ({
+        relationTo: 'apbdes';
+        value: number | Apbde;
+      } | null)
+    | ({
+        relationTo: 'templates';
+        value: number | Template;
+      } | null)
+    | ({
+        relationTo: 'theme-settings';
+        value: number | ThemeSetting;
+      } | null)
+    | ({
+        relationTo: 'analytics';
+        value: number | Analytics;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: string | Redirect;
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
-        value: string | Form;
+        value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: string | FormSubmission;
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'search';
-        value: string | Search;
+        value: number | Search;
       } | null)
     | ({
         relationTo: 'payload-folders';
-        value: string | FolderInterface;
+        value: number | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -1022,10 +2456,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -1045,7 +2479,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1053,10 +2487,923 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants_select".
+ */
+export interface TenantsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  type?: T;
+  logo?: T;
+  contactInfo?:
+    | T
+    | {
+        address?: T;
+        phone?: T;
+        email?: T;
+        website?: T;
+      };
+  subscriptionStatus?: T;
+  subscription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscription-plans_select".
+ */
+export interface SubscriptionPlansSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  price?: T;
+  interval?: T;
+  targetTenantType?: T;
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  limits?:
+    | T
+    | {
+        maxPages?: T;
+        maxPosts?: T;
+        maxUsers?: T;
+        storageGB?: T;
+      };
+  isActive?: T;
+  isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  tenant?: T;
+  plan?: T;
+  status?: T;
+  startDate?: T;
+  endDate?: T;
+  autoRenew?: T;
+  cancelledAt?: T;
+  cancellationReason?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices_select".
+ */
+export interface InvoicesSelect<T extends boolean = true> {
+  invoiceNumber?: T;
+  tenant?: T;
+  subscription?: T;
+  items?:
+    | T
+    | {
+        description?: T;
+        quantity?: T;
+        unitPrice?: T;
+        amount?: T;
+        id?: T;
+      };
+  subtotal?: T;
+  tax?: T;
+  amount?: T;
+  status?: T;
+  dueDate?: T;
+  paidAt?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  invoice?: T;
+  amount?: T;
+  method?: T;
+  status?: T;
+  midtransData?:
+    | T
+    | {
+        orderId?: T;
+        transactionId?: T;
+        transactionStatus?: T;
+        paymentType?: T;
+        snapToken?: T;
+        snapUrl?: T;
+        vaNumber?: T;
+        bank?: T;
+      };
+  manualTransferData?:
+    | T
+    | {
+        accountName?: T;
+        accountNumber?: T;
+        bankName?: T;
+        transferDate?: T;
+        proofOfPayment?: T;
+      };
+  metadata?: T;
+  processedAt?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profil-instansi_select".
+ */
+export interface ProfilInstansiSelect<T extends boolean = true> {
+  tenant?: T;
+  namaInstansi?: T;
+  visi?: T;
+  misi?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  sejarah?: T;
+  tugasPokok?: T;
+  strukturOrganisasi?:
+    | T
+    | {
+        bagan?: T;
+        deskripsi?: T;
+      };
+  pejabat?:
+    | T
+    | {
+        nama?: T;
+        jabatan?: T;
+        foto?: T;
+        nip?: T;
+        pendidikan?: T;
+        riwayat?: T;
+        id?: T;
+      };
+  kontak?:
+    | T
+    | {
+        alamat?: T;
+        telepon?: T;
+        fax?: T;
+        email?: T;
+        website?: T;
+        jamLayanan?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "berita_select".
+ */
+export interface BeritaSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  kategori?: T;
+  featuredImage?: T;
+  ringkasan?: T;
+  konten?: T;
+  galeri?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  penulis?: T;
+  publishedAt?: T;
+  isPinned?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dokumen_select".
+ */
+export interface DokumenSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  jenisDokumen?: T;
+  nomorDokumen?: T;
+  tanggalTerbit?: T;
+  tentang?: T;
+  deskripsi?: T;
+  file?: T;
+  lampiran?:
+    | T
+    | {
+        namaFile?: T;
+        file?: T;
+        id?: T;
+      };
+  status?: T;
+  kategori?:
+    | T
+    | {
+        nama?: T;
+        id?: T;
+      };
+  versi?:
+    | T
+    | {
+        nomorVersi?: T;
+        catatanRevisi?: T;
+        dokumenSebelumnya?: T;
+      };
+  jumlahUnduhan?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "layanan-publik_select".
+ */
+export interface LayananPublikSelect<T extends boolean = true> {
+  tenant?: T;
+  namaLayanan?: T;
+  kategori?: T;
+  deskripsi?: T;
+  persyaratan?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  prosedur?:
+    | T
+    | {
+        langkah?: T;
+        deskripsi?: T;
+        id?: T;
+      };
+  waktuPenyelesaian?:
+    | T
+    | {
+        durasi?: T;
+        satuan?: T;
+      };
+  biaya?:
+    | T
+    | {
+        nominal?: T;
+        keterangan?: T;
+      };
+  isOnline?: T;
+  linkLayanan?: T;
+  kontak?:
+    | T
+    | {
+        namaUnit?: T;
+        telepon?: T;
+        email?: T;
+        loket?: T;
+      };
+  formulir?:
+    | T
+    | {
+        namaFormulir?: T;
+        file?: T;
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        pertanyaan?: T;
+        jawaban?: T;
+        id?: T;
+      };
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agenda_select".
+ */
+export interface AgendaSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  deskripsi?: T;
+  tanggalMulai?: T;
+  tanggalSelesai?: T;
+  lokasi?: T;
+  penyelenggara?: T;
+  kategori?: T;
+  status?: T;
+  isPublic?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galeri_select".
+ */
+export interface GaleriSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  deskripsi?: T;
+  jenis?: T;
+  media?: T;
+  items?:
+    | T
+    | {
+        media?: T;
+        caption?: T;
+        id?: T;
+      };
+  tanggal?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "transparansi_select".
+ */
+export interface TransparansiSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  jenis?: T;
+  tahun?: T;
+  periode?: T;
+  deskripsi?: T;
+  file?: T;
+  lampiran?:
+    | T
+    | {
+        namaFile?: T;
+        file?: T;
+        id?: T;
+      };
+  ringkasan?:
+    | T
+    | {
+        totalAnggaran?: T;
+        realisasi?: T;
+        persentase?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statistik_select".
+ */
+export interface StatistikSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  kategori?: T;
+  tahun?: T;
+  deskripsi?: T;
+  data?:
+    | T
+    | {
+        label?: T;
+        nilai?: T;
+        satuan?: T;
+        id?: T;
+      };
+  visualisasi?: T;
+  sumber?: T;
+  file?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "anggota-dpr_select".
+ */
+export interface AnggotaDprSelect<T extends boolean = true> {
+  tenant?: T;
+  nama?: T;
+  foto?: T;
+  fraksi?: T;
+  dapil?: T;
+  komisi?:
+    | T
+    | {
+        nama?: T;
+        jabatan?: T;
+        id?: T;
+      };
+  jabatanDPR?: T;
+  periode?: T;
+  biodata?:
+    | T
+    | {
+        tempatLahir?: T;
+        tanggalLahir?: T;
+        pendidikan?: T;
+        pekerjaan?: T;
+      };
+  riwayatOrganisasi?:
+    | T
+    | {
+        organisasi?: T;
+        jabatan?: T;
+        tahun?: T;
+        id?: T;
+      };
+  kontak?:
+    | T
+    | {
+        email?: T;
+        telepon?: T;
+        alamatKantor?: T;
+      };
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "produk-hukum_select".
+ */
+export interface ProdukHukumSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  jenis?: T;
+  nomor?: T;
+  tahun?: T;
+  tentang?: T;
+  tanggalPenetapan?: T;
+  tanggalPengundangan?: T;
+  naskahAkademik?: T;
+  pemrakarsa?: T;
+  prosesLegislasi?:
+    | T
+    | {
+        tahap?: T;
+        tanggal?: T;
+        keterangan?: T;
+        id?: T;
+      };
+  file?: T;
+  lampiran?:
+    | T
+    | {
+        namaFile?: T;
+        file?: T;
+        id?: T;
+      };
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jadwal-sidang_select".
+ */
+export interface JadwalSidangSelect<T extends boolean = true> {
+  tenant?: T;
+  judul?: T;
+  jenisSidang?: T;
+  tanggal?: T;
+  waktuSelesai?: T;
+  tempat?: T;
+  agenda?: T;
+  komisi?: T;
+  peserta?:
+    | T
+    | {
+        nama?: T;
+        jabatan?: T;
+        instansi?: T;
+        id?: T;
+      };
+  dokumen?:
+    | T
+    | {
+        namaDokumen?: T;
+        jenis?: T;
+        file?: T;
+        id?: T;
+      };
+  status?: T;
+  hasilSidang?: T;
+  isPublic?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "program-kerja_select".
+ */
+export interface ProgramKerjaSelect<T extends boolean = true> {
+  tenant?: T;
+  namaProgram?: T;
+  tahun?: T;
+  deskripsi?: T;
+  tujuan?: T;
+  sasaran?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  indikatorKinerja?:
+    | T
+    | {
+        indikator?: T;
+        target?: T;
+        realisasi?: T;
+        satuan?: T;
+        id?: T;
+      };
+  anggaran?:
+    | T
+    | {
+        pagu?: T;
+        realisasi?: T;
+        persentase?: T;
+      };
+  kegiatan?:
+    | T
+    | {
+        namaKegiatan?: T;
+        waktu?: T;
+        penanggungJawab?: T;
+        status?: T;
+        id?: T;
+      };
+  status?: T;
+  dokumen?:
+    | T
+    | {
+        namaDokumen?: T;
+        file?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opd-directory_select".
+ */
+export interface OpdDirectorySelect<T extends boolean = true> {
+  tenant?: T;
+  namaOPD?: T;
+  jenisOPD?: T;
+  kepala?:
+    | T
+    | {
+        nama?: T;
+        nip?: T;
+        foto?: T;
+      };
+  alamat?: T;
+  kontak?:
+    | T
+    | {
+        telepon?: T;
+        email?: T;
+        website?: T;
+      };
+  tugasPokok?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kabupaten-directory_select".
+ */
+export interface KabupatenDirectorySelect<T extends boolean = true> {
+  tenant?: T;
+  namaKabupaten?: T;
+  jenisWilayah?: T;
+  bupatiWalikota?:
+    | T
+    | {
+        nama?: T;
+        foto?: T;
+      };
+  wakilBupatiWalikota?:
+    | T
+    | {
+        nama?: T;
+        foto?: T;
+      };
+  ibukota?: T;
+  luasWilayah?: T;
+  jumlahPenduduk?: T;
+  jumlahDistrik?: T;
+  jumlahKampung?: T;
+  kontak?:
+    | T
+    | {
+        alamat?: T;
+        telepon?: T;
+        email?: T;
+        website?: T;
+      };
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "perangkat-desa_select".
+ */
+export interface PerangkatDesaSelect<T extends boolean = true> {
+  tenant?: T;
+  nama?: T;
+  foto?: T;
+  jabatan?: T;
+  nip?: T;
+  pendidikan?: T;
+  tempatLahir?: T;
+  tanggalLahir?: T;
+  alamat?: T;
+  telepon?: T;
+  masaJabatan?:
+    | T
+    | {
+        mulai?: T;
+        selesai?: T;
+      };
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apbdes_select".
+ */
+export interface ApbdesSelect<T extends boolean = true> {
+  tenant?: T;
+  tahun?: T;
+  pendapatan?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              sumber?: T;
+              anggaran?: T;
+              realisasi?: T;
+              id?: T;
+            };
+      };
+  totalPendapatan?: T;
+  belanja?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              bidang?: T;
+              kegiatan?: T;
+              anggaran?: T;
+              realisasi?: T;
+              id?: T;
+            };
+      };
+  totalBelanja?: T;
+  pembiayaan?:
+    | T
+    | {
+        penerimaan?: T;
+        pengeluaran?: T;
+      };
+  dokumen?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "templates_select".
+ */
+export interface TemplatesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  targetTenantType?: T;
+  preview?:
+    | T
+    | {
+        thumbnail?: T;
+        demoUrl?: T;
+      };
+  layout?:
+    | T
+    | {
+        headerStyle?: T;
+        footerStyle?: T;
+        sidebarPosition?: T;
+      };
+  components?:
+    | T
+    | {
+        hero?: T;
+        newsSlider?: T;
+        serviceCards?: T;
+        statistics?: T;
+        gallery?: T;
+        contactForm?: T;
+      };
+  pages?:
+    | T
+    | {
+        title?: T;
+        slug?: T;
+        template?: T;
+        id?: T;
+      };
+  defaultColors?:
+    | T
+    | {
+        primary?: T;
+        secondary?: T;
+        accent?: T;
+      };
+  fonts?:
+    | T
+    | {
+        headingFont?: T;
+        bodyFont?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  isActive?: T;
+  isDefault?: T;
+  isPremium?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "theme-settings_select".
+ */
+export interface ThemeSettingsSelect<T extends boolean = true> {
+  tenant?: T;
+  template?: T;
+  colors?:
+    | T
+    | {
+        primary?: T;
+        secondary?: T;
+        accent?: T;
+        background?: T;
+        text?: T;
+      };
+  logo?:
+    | T
+    | {
+        main?: T;
+        alternate?: T;
+        favicon?: T;
+        width?: T;
+      };
+  header?:
+    | T
+    | {
+        style?: T;
+        isSticky?: T;
+        isTransparent?: T;
+        showSearch?: T;
+      };
+  footer?:
+    | T
+    | {
+        style?: T;
+        copyrightText?: T;
+        showSocialMedia?: T;
+      };
+  homepage?:
+    | T
+    | {
+        heroType?: T;
+        heroImages?:
+          | T
+          | {
+              image?: T;
+              title?: T;
+              subtitle?: T;
+              link?: T;
+              id?: T;
+            };
+        sections?:
+          | T
+          | {
+              type?: T;
+              title?: T;
+              isVisible?: T;
+              id?: T;
+            };
+      };
+  typography?:
+    | T
+    | {
+        headingFont?: T;
+        bodyFont?: T;
+        fontSize?: T;
+      };
+  customCSS?: T;
+  customJS?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        metaImage?: T;
+        googleAnalyticsId?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics_select".
+ */
+export interface AnalyticsSelect<T extends boolean = true> {
+  tenant?: T;
+  event?: T;
+  metadata?:
+    | T
+    | {
+        path?: T;
+        referrer?: T;
+        userAgent?: T;
+        ip?: T;
+        resourceId?: T;
+        searchQuery?: T;
+      };
+  sessionId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  tenant?: T;
   hero?:
     | T
     | {
@@ -1192,6 +3539,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  tenant?: T;
   heroImage?: T;
   content?: T;
   relatedPosts?: T;
@@ -1330,29 +3678,6 @@ export interface CategoriesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1634,7 +3959,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1643,11 +3968,11 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1663,7 +3988,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1672,15 +3997,93 @@ export interface Footer {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
         };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "super-admin-dashboard".
+ */
+export interface SuperAdminDashboard {
+  id: number;
+  /**
+   * Real-time platform statistics
+   */
+  stats?: {
+    totalTenants?: number | null;
+    activeTenants?: number | null;
+    totalRevenue?: number | null;
+    monthlyRevenue?: number | null;
+  };
+  tenantsByType?:
+    | {
+        type?: string | null;
+        count?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  subscriptionStats?:
+    | {
+        plan?: string | null;
+        count?: number | null;
+        revenue?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  recentActivity?:
+    | {
+        activity?: string | null;
+        timestamp?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-dashboard".
+ */
+export interface TenantDashboard {
+  id: number;
+  stats?: {
+    totalPageViews?: number | null;
+    monthlyPageViews?: number | null;
+    totalNews?: number | null;
+    totalServices?: number | null;
+    totalDocuments?: number | null;
+  };
+  subscription?: {
+    plan?: string | null;
+    status?: string | null;
+    nextBillingDate?: string | null;
+    daysRemaining?: number | null;
+  };
+  popularContent?:
+    | {
+        title?: string | null;
+        type?: string | null;
+        views?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  recentActivity?:
+    | {
+        activity?: string | null;
+        user?: string | null;
+        timestamp?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1735,6 +4138,87 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "super-admin-dashboard_select".
+ */
+export interface SuperAdminDashboardSelect<T extends boolean = true> {
+  stats?:
+    | T
+    | {
+        totalTenants?: T;
+        activeTenants?: T;
+        totalRevenue?: T;
+        monthlyRevenue?: T;
+      };
+  tenantsByType?:
+    | T
+    | {
+        type?: T;
+        count?: T;
+        id?: T;
+      };
+  subscriptionStats?:
+    | T
+    | {
+        plan?: T;
+        count?: T;
+        revenue?: T;
+        id?: T;
+      };
+  recentActivity?:
+    | T
+    | {
+        activity?: T;
+        timestamp?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-dashboard_select".
+ */
+export interface TenantDashboardSelect<T extends boolean = true> {
+  stats?:
+    | T
+    | {
+        totalPageViews?: T;
+        monthlyPageViews?: T;
+        totalNews?: T;
+        totalServices?: T;
+        totalDocuments?: T;
+      };
+  subscription?:
+    | T
+    | {
+        plan?: T;
+        status?: T;
+        nextBillingDate?: T;
+        daysRemaining?: T;
+      };
+  popularContent?:
+    | T
+    | {
+        title?: T;
+        type?: T;
+        views?: T;
+        id?: T;
+      };
+  recentActivity?:
+    | T
+    | {
+        activity?: T;
+        user?: T;
+        timestamp?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -1744,14 +4228,14 @@ export interface TaskSchedulePublish {
     doc?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: (number | null) | User;
   };
   output?: unknown;
 }
